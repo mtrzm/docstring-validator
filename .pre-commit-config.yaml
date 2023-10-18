@@ -1,0 +1,17 @@
+# minimum_pre_commit_version: "2.2"
+# # TODO: re-activate the 'merge' stage (when it becomes feasible)
+# # The codebase as a whole does not pass pre-commit checks and this is causing
+# # numerous issues during merge operations whenever pre-commit is active.
+# # The workaround is to only trigger on the 'commit' stage, until a satisfiable
+# # percentage of the repository is fixed.
+# default_stages: ["commit"]
+# fail_fast: true
+repos:
+  - repo: https://github.com/psf/black
+    rev: stable
+    hooks:
+    - id: black
+  - repo: https://github.com/pycqa/flake8
+    rev: main
+    hooks:
+    - id: flake8

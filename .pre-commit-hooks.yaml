@@ -1,0 +1,6 @@
+- id: docstring-validator
+  name: Test case docstring validator
+  description: Validate docstring for test functions against schema
+  entry: docstring-validator
+  language: python
+  types: [python]
