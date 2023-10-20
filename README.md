@@ -9,7 +9,7 @@ Doctring Validator is a tool to analyze docstrings against defined schema. It wa
 To enable Docstring Validator in your pre-commit configuration it is required to extend `repos` section in `.pre-commit-config.yaml` with hook declaration:
 
 ```yaml
-- repo: <TODO link to final repo>
+- repo: https://github.com/mtrzm/docstring-validator.git
   rev: 1.0.0
   hooks:
   - id: docstring-validator
@@ -17,7 +17,7 @@ To enable Docstring Validator in your pre-commit configuration it is required to
     pass_filenames: false
 ```
 
-where `-name_pattern` is optional argument.
+where `-name_pattern` is optional argument. `-s` enables staged files mode - only git staged changes will be analyzed
 
 ## CLI
 After installation Docstring Validator is available under `docstring-validator` entry point in CLI. Example usage:
