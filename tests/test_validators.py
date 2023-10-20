@@ -2,6 +2,7 @@ import pytest
 
 from docstring_validator import docstring_model
 from docstring_validator import validators
+from docstring_validator.validation_error import ValidationError
 
 
 ordered_lists_ok = [
@@ -29,6 +30,7 @@ ordered_lists_nok = [
     ["Test steps:"],
     ["Test steps:", "Not starting with number"],
 ]
+ordered_lists_codes = ["E113", "E111", "E112"]
 
 unordered_lists_ok = [
     [
@@ -40,6 +42,7 @@ unordered_lists_ok = [
 ]
 
 unordered_lists_nok = [["Fail criteria:", "No dash"], ["Pass criteria:"]]
+unordered_lists_codes = ["E122", "E121"]
 
 
 TEST_DOCSTRING = docstring_model.Docstring(
@@ -69,26 +72,32 @@ Reference:
 
 @pytest.mark.parametrize("docstring", ordered_lists_ok)
 def test_validate_ordered_ok(docstring):
-    assert validators.validate_ordered_list(docstring) == []
+    assert validators.validate_ordered_list(docstring, "Test steps") is None
 
 
 @pytest.mark.parametrize("docstring", unordered_lists_ok)
 def test_validate_unordered_ok(docstring):
-    assert validators.validate_unordered_list(docstring) == []
+    assert validators.validate_unordered_list(docstring, "Pass criteria") is None
 
 
-@pytest.mark.parametrize("docstring", ordered_lists_nok)
-def test_validate_ordered_nok(docstring):
-    result = validators.validate_ordered_list(docstring)
-    assert isinstance(result, list)
-    assert len(result) == 1
+@pytest.mark.parametrize(
+    "docstring, error_code", zip(ordered_lists_nok, ordered_lists_codes)
+)
+def test_validate_ordered_nok(docstring, error_code):
+    result = validators.validate_ordered_list(docstring, "Test steps")
+    assert isinstance(result, ValidationError)
+    assert result.code == error_code
+    assert isinstance(result.text, str)
 
 
-@pytest.mark.parametrize("docstring", unordered_lists_nok)
-def test_validate_unordered_nok(docstring):
-    result = validators.validate_unordered_list(docstring)
-    assert isinstance(result, list)
-    assert len(result) == 1
+@pytest.mark.parametrize(
+    "docstring, error_code", zip(unordered_lists_nok, unordered_lists_codes)
+)
+def test_validate_unordered_nok(docstring, error_code):
+    result = validators.validate_unordered_list(docstring, "Fail criteria")
+    assert isinstance(result, ValidationError)
+    assert result.code == error_code
+    assert isinstance(result.text, str)
 
 
 def test_validate_chunk_occurences_ok():

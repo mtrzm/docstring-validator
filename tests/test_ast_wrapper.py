@@ -9,7 +9,7 @@ docstring_data = dict(
     test_ping=dict(start=7, end=28),
     test_BUG1701=dict(start=31, end=33),
     test_BUG2137=dict(start=36, end=56),
-    test_BUG2042005x=dict(start=84, end=106),
+    test_BUG2042005=dict(start=84, end=106),
 )
 
 

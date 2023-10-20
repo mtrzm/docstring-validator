@@ -52,7 +52,7 @@ def test_BUG2137():
 
     Reference: BUG2137, BUG2042005
     """
-    a=1
+    ...
 
 
 def abc():
