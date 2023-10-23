@@ -71,6 +71,8 @@ class Chunk(abc.ABC):
 
     def __init__(self, content: List[str]):
         self.content = content
+        print(self.chunk_type.value)
+        print(self.content)
 
     def validate(self) -> List[ValidationError]:
         """Runs validation functions for the chunk.
@@ -150,6 +152,8 @@ class ReferencesChunk(Chunk):
 
     def __init__(self, content: List[str]):
         self.content = self._parse_reference(content)
+        print(self.chunk_type.value)
+        print(self.content)
 
     def _parse_reference(self, content: List[str]) -> List[str]:
         if len(content) == 1:

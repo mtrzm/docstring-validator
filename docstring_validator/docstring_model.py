@@ -67,6 +67,7 @@ class Docstring:
         raw_chunks = []
         for chunk in string_chunks:
             raw_chunks.append([line.strip() for line in chunk.split("\n") if line])
+        print(raw_chunks)
         return raw_chunks
 
     def _parse_raw_chunks(self, raw_chunks: List[List[str]]) -> List[chunks.Chunk]:

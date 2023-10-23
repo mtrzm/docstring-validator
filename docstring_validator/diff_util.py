@@ -40,6 +40,7 @@ def iter_diffs(
 
     # equivalent to git diff --cached --unified=0 --patch
     for change in baseline.diff(target, unified=0, create_patch=True):
+        print(change.b_path)
         # omit deleted files
         if change.b_path is None:
             continue
@@ -48,12 +49,14 @@ def iter_diffs(
                 continue
 
         file_path = path / change.b_path
+        print(file_path)
         only_added_lines = _get_added_lines(change.diff.decode())
 
         result = FileContent(
             path=file_path,
             content=only_added_lines,
         )
+        print(result)
         yield result
 
 
@@ -77,6 +80,7 @@ def iter_files(paths: List[Union[Path, str]]) -> Generator[FileContent, None, No
 
     for file_ in files:
         result = FileContent(path=file_, content=file_.read_text().split("\n"))
+        print(result)
         yield result
 
 

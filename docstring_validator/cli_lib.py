@@ -1,6 +1,7 @@
 """Library for handling CLI related operations for Docstring Validator."""
 
 import argparse
+import os
 import sys
 
 import docstring_validator
@@ -38,6 +39,9 @@ def get_args(args) -> argparse.Namespace:
 def run_cli():
     """CLI entry point for docstring-validator."""
     args = get_args(sys.argv[1:])
+    print(os.getcwd())
+    print(args)
+
     if args.staged:
         report = docstring_validator.analyze_staged(".", args.name_pattern)
     else:
@@ -46,4 +50,5 @@ def run_cli():
     if report:
         print("Issues found in docstrings by Docstring Validator:\n")
         print("\n".join(report))
+        print(bool(report))
     sys.exit(bool(report))
