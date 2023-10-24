@@ -1,11 +1,12 @@
 """Runners for different modes of operation for docstring validator."""
 from pathlib import Path
-from typing import Dict, Generator, List, Optional, Union
+from typing import Generator, List, Optional, Union
 
 from docstring_validator import diff_util
 from docstring_validator.code_parser import get_docstring
 from docstring_validator.docstring_model import Docstring
 from docstring_validator.reporter import report_errors
+from docstring_validator.validation_error import ValidationError
 
 
 def analyze_staged(
@@ -91,9 +92,7 @@ def _analyze_files(
     return report
 
 
-def _analyze_docstring(
-    raw_docstring: Optional[str],
-) -> List[Union[str, Dict[str, List[str]]]]:
+def _analyze_docstring(raw_docstring: Optional[str]) -> List[ValidationError]:
     """Checks if docstring adheres to schema."""
     docstring = Docstring(raw_docstring)
     errors = docstring.validate()
