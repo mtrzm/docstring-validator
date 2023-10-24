@@ -32,7 +32,9 @@ def analyze_staged(
     Returns:
         Text report from analysis
     """
-    generator = iter_diffs(Path(path), pattern=r"\.py$")
+    print(Path(path))
+    print(Path(path).resolve())
+    generator = iter_diffs(Path(path).resolve(), pattern=r"\.py$")
     return _analyze_files(generator, func_name_filter)
 
 
