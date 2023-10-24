@@ -2,8 +2,8 @@
 from pathlib import Path
 from typing import Dict, Generator, List, Optional, Union
 
+from docstring_validator import diff_util
 from docstring_validator.code_parser import get_docstring
-from docstring_validator.diff_util import find_func_names, iter_diffs, iter_files
 from docstring_validator.docstring_model import Docstring
 from docstring_validator.reporter import report_errors
 
@@ -32,9 +32,12 @@ def analyze_staged(
     Returns:
         Text report from analysis
     """
-    print(Path(path))
-    print(Path(path).resolve())
-    generator = iter_diffs(Path(path).resolve(), pattern=r"\.py$")
+    generator = diff_util.iter_diffs(
+        Path(path).resolve(),
+        pattern=r"\.py$",
+        baseline_rev=diff_util.from_ref(),
+        target_rev=diff_util.to_ref(),
+    )
     return _analyze_files(generator, func_name_filter)
 
 
@@ -65,7 +68,7 @@ def analyze_files(
     Returns:
         Text report from analysis
     """
-    generator = iter_files(path)
+    generator = diff_util.iter_files(path)
     return _analyze_files(generator, func_name_filter)
 
 
@@ -74,7 +77,7 @@ def _analyze_files(
 ) -> List[str]:
     errors = {}
     for file in generator:
-        func_names = find_func_names(file.content, func_name_filter)
+        func_names = diff_util.find_func_names(file.content, func_name_filter)
 
         file_errors = {}
         for func in func_names:
