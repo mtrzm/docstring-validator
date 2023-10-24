@@ -2,6 +2,7 @@
 
 Iterating over file system or git diff output are supported.
 """
+import os
 import re
 from pathlib import Path
 from typing import Generator, List, NamedTuple, Optional, Sequence, Union
@@ -112,3 +113,13 @@ def find_func_names(
         if matches:
             functions.append(matches.group(1))
     return functions
+
+
+def from_ref() -> Optional[str]:
+    """Retrieves user provided --from-ref."""
+    return os.environ.get("PRE_COMMIT_FROM_REF")
+
+
+def to_ref() -> Optional[str]:
+    """Retrieves user provided --to-ref."""
+    return os.environ.get("PRE_COMMIT_TO_REF")
